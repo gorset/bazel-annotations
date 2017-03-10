@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package example;
+
+option java_multiple_files = true;
+option java_package = "com.cxense.cube.proto";
+option java_outer_classname = "CubeProto";
+
+service ExampleService {
+    rpc Example(ExampleRequest) returns (ExampleResponse);
+}
+
+message ExampleRequest {
+}
+
+message ExampleResponse {
+}

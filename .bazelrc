@@ -1,0 +1,1 @@
+build --javacopt="-Xlint:all,-path,-serial,-cast,-deprecation -Werror"

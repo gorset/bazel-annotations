@@ -1,0 +1,36 @@
+$ uname -a
+Darwin Erik.local 16.4.0 Darwin Kernel Version 16.4.0: Thu Dec 22 22:53:21 PST 2016; root:xnu-3789.41.3~3/RELEASE_X86_64 x86_64
+
+$ bazel version
+Build label: 0.4.5rc6
+Build target:
+bazel-out/local-fastbuild/bin/src/main/java/com/google/devtools/build/lib/bazel/BazelServer_deploy.jar
+Build time: Wed Mar 8 18:57:39 2017 (1488999459)
+Build timestamp: 1488999459
+Build timestamp as int: 1488999459
+
+$ bazel build //example:exampleworking
+INFO: Found 1 target...
+Target //example:exampleworking up-to-date:
+  bazel-bin/example/libexampleworking.jar
+INFO: Elapsed time: 0.161s, Critical Path: 0.00s
+
+$ bazel build //example:examplefail
+INFO: Found 1 target...
+ERROR: /Users/erik/cXense/bazel-error-prone/example/BUILD:3:1: Java compilation in rule '//example:examplefail' failed: Worker process sent response with exit code: 1.
+bazel-out/local-fastbuild/genfiles/example/_ijar/examplefail_compile_imports/external/io_grpc_grpc_core/jar/grpc-core-1.1.2-ijar.jar(/io/grpc/ClientCall.class): warning: Cannot find annotation method 'value()' in type 'DoNotMock': class file for com.google.errorprone.annotations.DoNotMock not found
+error: warnings found and -Werror specified
+Target //example:examplefail failed to build
+Use --verbose_failures to see the command lines of failed build steps.
+INFO: Elapsed time: 0.369s, Critical Path: 0.22s
+
+$ bazel query 'somepath(//example:exampleworking, @com_google_errorprone_error_prone_annotations//jar)'
+//example:exampleworking
+@com_google_errorprone_error_prone_annotations//jar:jar
+
+$ bazel query 'somepath(//example:examplefail, @com_google_errorprone_error_prone_annotations//jar)'
+//example:examplefail
+//example:examplefail.pb
+@org_pubref_rules_protobuf//java:java
+@io_grpc_grpc_core//jar:jar
+@com_google_errorprone_error_prone_annotations//jar:jar
